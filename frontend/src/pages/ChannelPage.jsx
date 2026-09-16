@@ -441,7 +441,10 @@ function ChannelPage() {
       setPlaylists((previousPlaylists) =>
         previousPlaylists.map((playlist) =>
           playlist._id === playlistId
-            ? response.data
+            ? {
+              ...response.data,
+              videos: playlist.videos,
+            }
             : playlist
         )
       );
@@ -506,9 +509,9 @@ function ChannelPage() {
         previousVideos.map((previousVideo) =>
           previousVideo._id === videoId
             ? {
-                ...response.data,
-                owner: previousVideo.owner,
-              }
+              ...response.data,
+              owner: previousVideo.owner,
+            }
             : previousVideo
         )
       );
@@ -563,62 +566,79 @@ function ChannelPage() {
       {/* COVER IMAGE */}
 
       {channel.coverImage && (
-        <img
-          src={channel.coverImage}
-          alt={`${channel.username} cover`}
-          width="100%"
-        />
+        <div className="channel-cover">
+          <img
+            src={channel.coverImage}
+            alt={`${channel.username} cover`}
+          />
+        </div>
       )}
 
       {/* CHANNEL INFORMATION */}
 
-      <section>
+      <section className="channel-header">
         <img
+          className="channel-avatar"
           src={channel.avatar}
           alt={channel.username}
-          width="100"
         />
 
-        <h1>{channel.fullName}</h1>
+        <div className="channel-info">
+          <h1 className="channel-name">
+            {channel.fullName}
+          </h1>
 
-        <p>@{channel.username}</p>
+          <p className="channel-username">
+            @{channel.username}
+          </p>
 
-        <p>{channel.subscribersCount} subscribers</p>
+          <p className="channel-subscribers">
+            {channel.subscribersCount} subscribers
+          </p>
 
-        {currentUser && (
-          <>
-            {isChannelOwner ? (
-              <span>Your Channel</span>
-            ) : (
-              <button
-                onClick={handleSubscription}
-                disabled={isSubscriptionLoading}
-              >
-                {isSubscriptionLoading
-                  ? "Loading..."
-                  : channel.isSubscribed
-                    ? "Unsubscribe"
-                    : "Subscribe"}
-              </button>
-            )}
+          {currentUser && (
+            <div className="channel-actions">
+              {isChannelOwner ? (
+                <span className="channel-owner-label">
+                  Your Channel
+                </span>
+              ) : (
+                <button
+                  className="channel-subscribe-button"
+                  onClick={handleSubscription}
+                  disabled={isSubscriptionLoading}
+                >
+                  {isSubscriptionLoading
+                    ? "Loading..."
+                    : channel.isSubscribed
+                      ? "Unsubscribe"
+                      : "Subscribe"}
+                </button>
+              )}
+            </div>
+          )}
 
-            {subscriptionError && (
-              <p>{subscriptionError}</p>
-            )}
-          </>
-        )}
+          {subscriptionError && (
+            <p className="channel-error">
+              {subscriptionError}
+            </p>
+          )}
+        </div>
       </section>
 
       {/* PLAYLISTS */}
 
-      <section>
-        <h2>Playlists</h2>
+      <section className="channel-playlists">
+        <h2 className="channel-section-title">Playlists</h2>
 
         {currentUser && isChannelOwner && (
-          <form onSubmit={handleCreatePlaylist}>
+          <form
+            className="playlist-create-form"
+            onSubmit={handleCreatePlaylist}>
             <div>
               <label htmlFor="playlistName">Playlist name</label>
               <input
+                className="playlist-input"
                 id="playlistName"
                 type="text"
                 value={playlistName}
@@ -632,6 +652,7 @@ function ChannelPage() {
                 Description
               </label>
               <textarea
+                className="playlist-input playlist-textarea"
                 id="playlistDescription"
                 value={playlistDescription}
                 onChange={(event) =>
@@ -641,10 +662,10 @@ function ChannelPage() {
             </div>
 
             {createPlaylistError && (
-              <p>{createPlaylistError}</p>
+              <p className="channel-error">{createPlaylistError}</p>
             )}
 
-            <button type="submit" disabled={isCreatingPlaylist}>
+            <button className="playlist-create-button" type="submit" disabled={isCreatingPlaylist}>
               {isCreatingPlaylist
                 ? "Creating..."
                 : "Create Playlist"}
@@ -657,36 +678,38 @@ function ChannelPage() {
         )}
 
         {playlistsLoading && (
-          <p>Loading playlists...</p>
+          <p className="channel-status-message">Loading playlists...</p>
         )}
 
         {playlistsError && (
-          <p>{playlistsError}</p>
+          <p className="channel-error">{playlistsError}</p>
         )}
 
         {!playlistsLoading &&
           !playlistsError &&
           playlists.length === 0 && (
-            <p>No playlists found.</p>
+            <p className="channel-status-message">No playlists found.</p>
           )}
 
         {!playlistsLoading &&
           !playlistsError &&
           playlists.length > 0 && (
-            <div>
+            <div className="playlist-list">
               {playlists.map((playlist) => (
-                <article key={playlist._id}>
+                <article className="playlist-card" key={playlist._id}>
                   {editingPlaylistId === playlist._id ? (
                     <form
+                      className="playlist-edit-form"
                       onSubmit={(event) =>
                         handleUpdatePlaylist(event, playlist._id)
                       }
                     >
-                      <div>
+                      <div className="playlist-edit-field">
                         <label htmlFor="editPlaylistName">
                           Playlist name
                         </label>
                         <input
+                          className="playlist-input"
                           id="editPlaylistName"
                           type="text"
                           value={editPlaylistName}
@@ -697,11 +720,12 @@ function ChannelPage() {
                         />
                       </div>
 
-                      <div>
+                      <div className="playlist-edit-field">
                         <label htmlFor="editPlaylistDescription">
                           Description
                         </label>
                         <textarea
+                          className="playlist-input playlist-textarea"
                           id="editPlaylistDescription"
                           value={editPlaylistDescription}
                           onChange={(event) =>
@@ -716,6 +740,7 @@ function ChannelPage() {
 
                       <button
                         type="submit"
+                        className="playlist-save-button"
                         disabled={isUpdatingPlaylist}
                       >
                         {isUpdatingPlaylist
@@ -725,6 +750,7 @@ function ChannelPage() {
 
                       <button
                         type="button"
+                        className="playlist-cancel-button"
                         onClick={handleCancelPlaylistEdit}
                         disabled={isUpdatingPlaylist}
                       >
@@ -773,27 +799,27 @@ function ChannelPage() {
 
       {/* PUBLIC VIDEOS */}
 
-      <section>
-        <h2>Videos</h2>
+      <section className="channel-videos">
+        <h2 className="channel-section-title">Videos</h2>
 
         {videosLoading && (
-          <p>Loading videos...</p>
+          <p className="channel-status-message">Loading videos...</p>
         )}
 
         {videosError && (
-          <p>{videosError}</p>
+          <p className="channel-error">{videosError}</p>
         )}
 
         {!videosLoading &&
           !videosError &&
           videos.length === 0 && (
-            <p>No videos found.</p>
+            <p className="channel-status-message">No videos found.</p>
           )}
 
         {!videosLoading &&
           !videosError &&
           videos.length > 0 && (
-            <div>
+            <div className="video-grid">
               {videos.map((video) => (
                 <VideoCard
                   key={video._id}
@@ -804,7 +830,7 @@ function ChannelPage() {
           )}
 
         {videosPagination && (
-          <div>
+          <div className="channel-pagination">
             <button
               onClick={() =>
                 setSearchParams({
@@ -837,46 +863,46 @@ function ChannelPage() {
       {/* OWNER'S VIDEOS */}
 
       {isChannelOwner && (
-        <section>
-          <h2>Your Channel</h2>
+        <section className="channel-owner-videos">
+          <h2 className="channel-owner-title">Your Channel</h2>
 
-          <button onClick={() => navigate("/upload")}>
+          <button className="channel-upload-button" onClick={() => navigate("/upload")}>
             Upload Video
           </button>
 
-          <h2>Your Videos</h2>
+          <h2 className="channel-section-title">Your Videos</h2>
 
           {myVideosLoading && (
-            <p>Loading your videos...</p>
+            <p className="channel-status-message">Loading your videos...</p>
           )}
 
           {myVideosError && (
-            <p>{myVideosError}</p>
+            <p className="channel-error">{myVideosError}</p>
           )}
 
           {togglePublishError && (
-            <p>{togglePublishError}</p>
+            <p className="channel-error">{togglePublishError}</p>
           )}
 
           {deleteVideoError && (
-            <p>{deleteVideoError}</p>
+            <p className="channel-error">{deleteVideoError}</p>
           )}
 
           {!myVideosLoading &&
             !myVideosError &&
             myVideos.length === 0 && (
-              <p>No videos found.</p>
+              <p  className="channel-status-message">No videos found.</p>
             )}
 
           {!myVideosLoading &&
             !myVideosError &&
             myVideos.length > 0 && (
-              <div>
+              <div className="channel-owner-video-list">
                 {myVideos.map((video) => (
-                  <article key={video._id}>
+                  <article className="channel-owner-video-card" key={video._id}>
                     <VideoCard video={video} />
 
-                    <p>
+                    <p className="channel-video-status">
                       Status:{" "}
                       {video.isPublished
                         ? "Published"

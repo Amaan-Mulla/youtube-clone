@@ -84,18 +84,19 @@ function UploadPage() {
   }
 
   return (
-    <div>
-      <h1>Upload Video</h1>
+    <div className="upload-page">
+      <h1 className="upload-title">Upload Video</h1>
 
-      {error && <p>{error}</p>}
+      {error && <p className="upload-error">{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form className="upload-form" onSubmit={handleSubmit}>
+        <div className="upload-field">
           <label htmlFor="title">
             Title
           </label>
 
           <input
+            className="upload-input"
             id="title"
             type="text"
             value={title}
@@ -106,12 +107,13 @@ function UploadPage() {
           />
         </div>
 
-        <div>
+        <div className="upload-field">
           <label htmlFor="description">
             Description
           </label>
 
           <textarea
+            className="upload-input upload-textarea"
             id="description"
             value={description}
             onChange={(event) =>
@@ -121,12 +123,13 @@ function UploadPage() {
           />
         </div>
 
-        <div>
+        <div className="upload-field">
           <label htmlFor="videoFile">
             Video
           </label>
 
           <input
+            className="upload-file-input"
             id="videoFile"
             type="file"
             accept="video/*"
@@ -137,12 +140,13 @@ function UploadPage() {
           />
         </div>
 
-        <div>
+        <div className="upload-field">
           <label htmlFor="thumbnail">
             Thumbnail
           </label>
 
           <input
+            className="upload-file-input"
             id="thumbnail"
             type="file"
             accept="image/*"
@@ -154,6 +158,7 @@ function UploadPage() {
         </div>
 
         <button
+          className="upload-submit-button"
           type="submit"
           disabled={isUploading || isAuthChecking}
         >

@@ -807,118 +807,144 @@ function WatchPage() {
   // ---------------- PAGE ----------------
 
   return (
-    <div>
-      <h1>
-        {isEditingVideo
-          ? "Edit Video"
-          : video.title}
-      </h1>
+    <div className="watch-page">
+      <section className="watch-video-section">
+        <h1 className="watch-title">
+          {isEditingVideo ? "Edit Video" : video.title}
+        </h1>
 
-      <video
-        src={video.videoFile}
-        controls
-        width="800"
-        onPlay={handlePlay}
-      />
-
-      {/* CHANNEL */}
-
-      {video.owner?.username && (
-        <Link to={`/channel/${video.owner.username}`}>
-          {video.owner.username}
-        </Link>
-      )}
-
-      {currentUser && (
-        <div>
-          <span>{subscriberCount} subscribers</span>
-
-          {isVideoOwner ? (
-            <span>Your Channel</span>
-          ) : (
-            <button
-              onClick={handleToggleSubscription}
-              disabled={isTogglingSubscription}
-            >
-              {isTogglingSubscription
-                ? "Updating..."
-                : isSubscribed
-                  ? "Subscribed"
-                  : "Subscribe"}
-            </button>
-          )}
-
-          {subscriptionError && (
-            <p>{subscriptionError}</p>
-          )}
+        <div className="watch-player-wrapper">
+          <video
+            className="watch-video-player"
+            src={video.videoFile}
+            controls
+            onPlay={handlePlay}
+          />
         </div>
-      )}
 
-      {currentUser && (
-        <section>
-          <button
-            onClick={handleOpenPlaylistSelector}
-            disabled={playlistsLoading || isAddingToPlaylist}
-          >
-            Add to Playlist
-          </button>
+        {/* CHANNEL */}
 
-          {addToPlaylistSuccess && (
-            <p>{addToPlaylistSuccess}</p>
-          )}
+        {video.owner?.username && (
+          <div className="watch-channel-section">
+            <Link
+              to={`/channel/${video.owner.username}`}
+              className="watch-channel-link"
+            >
+              {video.owner.username}
+            </Link>
 
-          {isPlaylistSelectorOpen && (
-            <div>
-              {playlistsLoading && (
-                <p>Loading playlists...</p>
-              )}
+            {currentUser && (
+              <div className="watch-channel-actions">
+                <span className="watch-subscriber-count">
+                  {subscriberCount} subscribers
+                </span>
 
-              {playlistsError && (
-                <p>{playlistsError}</p>
-              )}
+                {isVideoOwner ? (
+                  <span className="watch-owner-label">
+                    Your Channel
+                  </span>
+                ) : (
+                  <button
+                    className="watch-subscribe-button"
+                    onClick={handleToggleSubscription}
+                    disabled={isTogglingSubscription}
+                  >
+                    {isTogglingSubscription
+                      ? "Updating..."
+                      : isSubscribed
+                        ? "Subscribed"
+                        : "Subscribe"}
+                  </button>
+                )}
+              </div>
+            )}
 
-              {addToPlaylistError && (
-                <p>{addToPlaylistError}</p>
-              )}
+            {subscriptionError && (
+              <p className="watch-error">
+                {subscriptionError}
+              </p>
+            )}
+          </div>
+        )}
 
-              {!playlistsLoading &&
-                !playlistsError &&
-                playlists.length === 0 && (
-                  <p>You don't have any playlists yet.</p>
+        {/* ADD TO PLAYLIST */}
+
+        {currentUser && (
+          <section className="watch-playlist-section">
+            <button
+              className="watch-action-button"
+              onClick={handleOpenPlaylistSelector}
+              disabled={playlistsLoading || isAddingToPlaylist}
+            >
+              Add to Playlist
+            </button>
+
+            {addToPlaylistSuccess && (
+              <p className="watch-success">
+                {addToPlaylistSuccess}
+              </p>
+            )}
+
+            {isPlaylistSelectorOpen && (
+              <div className="playlist-selector">
+                {playlistsLoading && (
+                  <p>Loading playlists...</p>
                 )}
 
-              {!playlistsLoading &&
-                !playlistsError &&
-                playlists.length > 0 && (
-                  <div>
-                    {playlists.map((playlist) => (
-                      <button
-                        key={playlist._id}
-                        onClick={() =>
-                          handleAddToPlaylist(playlist._id)
-                        }
-                        disabled={isAddingToPlaylist}
-                      >
-                        {isAddingToPlaylist
-                          ? "Adding..."
-                          : playlist.name}
-                      </button>
-                    ))}
-                  </div>
+                {playlistsError && (
+                  <p className="watch-error">
+                    {playlistsError}
+                  </p>
                 )}
-            </div>
-          )}
-        </section>
-      )}
 
-      {/* VIDEO OWNER CONTROLS */}
+                {addToPlaylistError && (
+                  <p className="watch-error">
+                    {addToPlaylistError}
+                  </p>
+                )}
 
-      {/* VIDEO EDIT FORM */}
+                {!playlistsLoading &&
+                  !playlistsError &&
+                  playlists.length === 0 && (
+                    <p>You don't have any playlists yet.</p>
+                  )}
 
-      {isVideoOwner && isEditingVideo && (
-        <div>
-            <form onSubmit={handleUpdateVideo}>
-              <div>
+                {!playlistsLoading &&
+                  !playlistsError &&
+                  playlists.length > 0 && (
+                    <div className="playlist-list">
+                      {playlists.map((playlist) => (
+                        <button
+                          className="playlist-item"
+                          key={playlist._id}
+                          onClick={() =>
+                            handleAddToPlaylist(playlist._id)
+                          }
+                          disabled={isAddingToPlaylist}
+                        >
+                          {isAddingToPlaylist
+                            ? "Adding..."
+                            : playlist.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* VIDEO OWNER CONTROLS */}
+
+        {/* VIDEO EDIT FORM */}
+
+        {isVideoOwner && isEditingVideo && (
+          <div className="video-edit-section">
+            <form
+              className="video-edit-form"
+              onSubmit={handleUpdateVideo}
+            >
+              <div className="form-group">
                 <label htmlFor="editTitle">
                   Title
                 </label>
@@ -934,7 +960,7 @@ function WatchPage() {
                 />
               </div>
 
-              <div>
+              <div className="form-group">
                 <label htmlFor="editDescription">
                   Description
                 </label>
@@ -943,15 +969,13 @@ function WatchPage() {
                   id="editDescription"
                   value={editDescription}
                   onChange={(event) =>
-                    setEditDescription(
-                      event.target.value
-                    )
+                    setEditDescription(event.target.value)
                   }
                   disabled={isUpdatingVideo}
                 />
               </div>
 
-              <div>
+              <div className="form-group">
                 <label htmlFor="editThumbnail">
                   New Thumbnail
                 </label>
@@ -970,281 +994,323 @@ function WatchPage() {
               </div>
 
               {updateVideoError && (
-                <p>{updateVideoError}</p>
+                <p className="watch-error">
+                  {updateVideoError}
+                </p>
               )}
 
-              <button
-                type="submit"
-                disabled={isUpdatingVideo}
-              >
-                {isUpdatingVideo
-                  ? "Saving..."
-                  : "Save Changes"}
-              </button>
+              <div className="form-actions">
+                <button
+                  type="submit"
+                  disabled={isUpdatingVideo}
+                >
+                  {isUpdatingVideo
+                    ? "Saving..."
+                    : "Save Changes"}
+                </button>
 
-              <button
-                type="button"
-                onClick={handleCancelVideoEdit}
-                disabled={isUpdatingVideo}
-              >
-                Cancel
-              </button>
-            </form>
-          {deleteVideoError && (
-            <p>{deleteVideoError}</p>
-          )}
-        </div>
-      )}
-      
-
-      {/* NORMAL VIDEO INFORMATION */}
-
-      {!isEditingVideo && (
-        <>
-          <p>{video.views} views</p>
-
-          <p>{video.description}</p>
-
-          {/* LIKE */}
-
-          <button onClick={handleLike}>
-            {isLiked ? "Unlike" : "Like"}
-          </button>
-
-          <span> {likeCount} likes</span>
-
-          {/* COMMENTS */}
-
-          <section>
-            <h2>Comments</h2>
-
-            {/* ADD COMMENT */}
-
-            <form onSubmit={handleAddComment}>
-              <input
-                type="text"
-                placeholder="Write a comment..."
-                value={commentText}
-                onChange={(event) =>
-                  setCommentText(event.target.value)
-                }
-              />
-
-              <button
-                type="submit"
-                disabled={isAddingComment}
-              >
-                {isAddingComment
-                  ? "Adding..."
-                  : "Add Comment"}
-              </button>
+                <button
+                  type="button"
+                  onClick={handleCancelVideoEdit}
+                  disabled={isUpdatingVideo}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
 
-            {addCommentError && (
-              <p>{addCommentError}</p>
+            {deleteVideoError && (
+              <p className="watch-error">
+                {deleteVideoError}
+              </p>
             )}
+          </div>
+        )}
 
-            {/* COMMENT LIST */}
+        {/* NORMAL VIDEO INFORMATION */}
 
-            {commentsLoading && (
-              <p>Loading comments...</p>
-            )}
+        {!isEditingVideo && (
+          <>
+            <div className="watch-video-meta">
+              <p className="watch-views">
+                {video.views} views
+              </p>
 
-            {commentsError && (
-              <p>{commentsError}</p>
-            )}
+              <div className="watch-actions">
+                <button
+                  className={isLiked ? "watch-action-button active" : "watch-action-button"}
+                  onClick={handleLike}
+                >
+                  {isLiked ? "Unlike" : "Like"}
+                </button>
 
-            {deleteCommentError && (
-              <p>{deleteCommentError}</p>
-            )}
+                <span className="watch-like-count">
+                  {likeCount} likes
+                </span>
+              </div>
+            </div>
 
-            {commentLikeError && (
-              <p>{commentLikeError}</p>
-            )}
+            <div className="watch-description">
+              <p>{video.description}</p>
+            </div>
 
-            {!commentsLoading &&
-              !commentsError &&
-              comments.length === 0 && (
-                <p>No comments yet.</p>
+            {/* COMMENTS */}
+
+            <section className="comments-section">
+              <h2>Comments</h2>
+
+              {/* ADD COMMENT */}
+
+              <form
+                className="comment-form"
+                onSubmit={handleAddComment}
+              >
+                <input
+                  type="text"
+                  placeholder="Write a comment..."
+                  value={commentText}
+                  onChange={(event) =>
+                    setCommentText(event.target.value)
+                  }
+                />
+
+                <button
+                  type="submit"
+                  disabled={isAddingComment}
+                >
+                  {isAddingComment
+                    ? "Adding..."
+                    : "Add Comment"}
+                </button>
+              </form>
+
+              {addCommentError && (
+                <p className="watch-error">
+                  {addCommentError}
+                </p>
               )}
 
-            {!commentsLoading &&
-              !commentsError &&
-              comments.length > 0 && (
-                <div>
-                  {comments.map((comment) => (
-                    <article key={comment._id}>
-                      <img
-                        src={comment.owner?.avatar}
-                        alt={comment.owner?.username}
-                        width="40"
-                      />
+              {/* COMMENT LIST */}
 
-                      <strong>
-                        {comment.owner?.username}
-                      </strong>
+              {commentsLoading && (
+                <p>Loading comments...</p>
+              )}
 
-                      {commentLikes[comment._id] && (
-                        <span>
-                          {commentLikes[comment._id].likeCount} likes
-                        </span>
-                      )}
+              {commentsError && (
+                <p className="watch-error">
+                  {commentsError}
+                </p>
+              )}
 
-                      {currentUser && (
-                        <button
-                          onClick={() =>
-                            handleToggleCommentLike(comment._id)
-                          }
-                          disabled={
-                            togglingCommentLikeId === comment._id
-                          }
-                        >
-                          {togglingCommentLikeId === comment._id
-                            ? "Liking..."
-                            : commentLikes[comment._id]?.isLiked
-                              ? "Unlike"
-                              : "Like"}
-                        </button>
-                      )}
+              {deleteCommentError && (
+                <p className="watch-error">
+                  {deleteCommentError}
+                </p>
+              )}
 
-                      {/* EDITING MODE */}
+              {commentLikeError && (
+                <p className="watch-error">
+                  {commentLikeError}
+                </p>
+              )}
 
-                      {editingCommentId ===
-                      comment._id ? (
-                        <div>
-                          <input
-                            type="text"
-                            value={editingCommentText}
-                            onChange={(event) =>
-                              setEditingCommentText(
-                                event.target.value
-                              )
-                            }
-                          />
+              {!commentsLoading &&
+                !commentsError &&
+                comments.length === 0 && (
+                  <p>No comments yet.</p>
+                )}
 
-                          <button
-                            onClick={() =>
-                              handleUpdateComment(
-                                comment._id
-                              )
-                            }
-                            disabled={
-                              isUpdatingComment
-                            }
-                          >
-                            {isUpdatingComment
-                              ? "Saving..."
-                              : "Save"}
-                          </button>
+              {!commentsLoading &&
+                !commentsError &&
+                comments.length > 0 && (
+                  <div className="comments-list">
+                    {comments.map((comment) => (
+                      <article
+                        className="comment-item"
+                        key={comment._id}
+                      >
+                        <img
+                          className="comment-avatar"
+                          src={comment.owner?.avatar}
+                          alt={comment.owner?.username}
+                          width="40"
+                        />
 
-                          <button
-                            onClick={() => {
-                              setEditingCommentId(null);
-                              setEditingCommentText("");
-                              setUpdateCommentError("");
-                            }}
-                            disabled={
-                              isUpdatingComment
-                            }
-                          >
-                            Cancel
-                          </button>
+                        <div className="comment-content">
+                          <strong className="comment-author">
+                            {comment.owner?.username}
+                          </strong>
 
-                          {updateCommentError && (
-                            <p>
-                              {updateCommentError}
-                            </p>
+                          {commentLikes[comment._id] && (
+                            <span className="comment-like-count">
+                              {commentLikes[comment._id].likeCount} likes
+                            </span>
                           )}
-                        </div>
-                      ) : (
-                        <>
-                          {/* NORMAL COMMENT */}
 
-                          <p>{comment.content}</p>
+                          {currentUser && (
+                            <button
+                              className="comment-like-button"
+                              onClick={() =>
+                                handleToggleCommentLike(
+                                  comment._id
+                                )
+                              }
+                              disabled={
+                                togglingCommentLikeId ===
+                                comment._id
+                              }
+                            >
+                              {togglingCommentLikeId ===
+                                comment._id
+                                ? "Liking..."
+                                : commentLikes[comment._id]
+                                  ?.isLiked
+                                  ? "Unlike"
+                                  : "Like"}
+                            </button>
+                          )}
 
-                          {/* EDIT / DELETE ONLY FOR COMMENT OWNER */}
+                          {/* EDITING MODE */}
 
-                          {currentUser &&
-                            comment.owner?._id ===
-                              currentUser._id && (
-                              <div>
+                          {editingCommentId ===
+                            comment._id ? (
+                            <div className="comment-edit-form">
+                              <input
+                                type="text"
+                                value={editingCommentText}
+                                onChange={(event) =>
+                                  setEditingCommentText(
+                                    event.target.value
+                                  )
+                                }
+                              />
+
+                              <div className="comment-edit-actions">
                                 <button
                                   onClick={() =>
-                                    handleEditClick(
-                                      comment
-                                    )
-                                  }
-                                >
-                                  Edit
-                                </button>
-
-                                <button
-                                  onClick={() =>
-                                    handleDeleteComment(
+                                    handleUpdateComment(
                                       comment._id
                                     )
                                   }
-                                  disabled={
-                                    deletingCommentId ===
-                                    comment._id
-                                  }
+                                  disabled={isUpdatingComment}
                                 >
-                                  {deletingCommentId ===
-                                  comment._id
-                                    ? "Deleting..."
-                                    : "Delete"}
+                                  {isUpdatingComment
+                                    ? "Saving..."
+                                    : "Save"}
+                                </button>
+
+                                <button
+                                  onClick={() => {
+                                    setEditingCommentId(null);
+                                    setEditingCommentText("");
+                                    setUpdateCommentError("");
+                                  }}
+                                  disabled={isUpdatingComment}
+                                >
+                                  Cancel
                                 </button>
                               </div>
-                            )}
-                        </>
-                      )}
-                    </article>
-                  ))}
+
+                              {updateCommentError && (
+                                <p className="watch-error">
+                                  {updateCommentError}
+                                </p>
+                              )}
+                            </div>
+                          ) : (
+                            <>
+                              {/* NORMAL COMMENT */}
+
+                              <p className="comment-text">
+                                {comment.content}
+                              </p>
+
+                              {/* EDIT / DELETE ONLY FOR COMMENT OWNER */}
+
+                              {currentUser &&
+                                comment.owner?._id ===
+                                currentUser._id && (
+                                  <div className="comment-owner-actions">
+                                    <button
+                                      onClick={() =>
+                                        handleEditClick(comment)
+                                      }
+                                    >
+                                      Edit
+                                    </button>
+
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteComment(
+                                          comment._id
+                                        )
+                                      }
+                                      disabled={
+                                        deletingCommentId ===
+                                        comment._id
+                                      }
+                                    >
+                                      {deletingCommentId ===
+                                        comment._id
+                                        ? "Deleting..."
+                                        : "Delete"}
+                                    </button>
+                                  </div>
+                                )}
+                            </>
+                          )}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                )}
+
+              {commentsPagination && (
+                <div className="comments-pagination">
+                  <button
+                    onClick={() => {
+                      const nextSearchParams =
+                        new URLSearchParams(searchParams);
+
+                      nextSearchParams.set(
+                        "commentsPage",
+                        String(commentsPagination.prevPage)
+                      );
+
+                      setSearchParams(nextSearchParams);
+                    }}
+                    disabled={!commentsPagination.hasPrevPage}
+                  >
+                    Previous
+                  </button>
+
+                  <span>
+                    Page {commentsPagination.page} of{" "}
+                    {commentsPagination.totalPages}
+                  </span>
+
+                  <button
+                    onClick={() => {
+                      const nextSearchParams =
+                        new URLSearchParams(searchParams);
+
+                      nextSearchParams.set(
+                        "commentsPage",
+                        String(commentsPagination.nextPage)
+                      );
+
+                      setSearchParams(nextSearchParams);
+                    }}
+                    disabled={!commentsPagination.hasNextPage}
+                  >
+                    Next
+                  </button>
                 </div>
               )}
-
-            {commentsPagination && (
-              <div>
-                <button
-                  onClick={() => {
-                    const nextSearchParams = new URLSearchParams(
-                      searchParams
-                    );
-                    nextSearchParams.set(
-                      "commentsPage",
-                      String(commentsPagination.prevPage)
-                    );
-                    setSearchParams(nextSearchParams);
-                  }}
-                  disabled={!commentsPagination.hasPrevPage}
-                >
-                  Previous
-                </button>
-
-                <span>
-                  Page {commentsPagination.page} of {commentsPagination.totalPages}
-                </span>
-
-                <button
-                  onClick={() => {
-                    const nextSearchParams = new URLSearchParams(
-                      searchParams
-                    );
-                    nextSearchParams.set(
-                      "commentsPage",
-                      String(commentsPagination.nextPage)
-                    );
-                    setSearchParams(nextSearchParams);
-                  }}
-                  disabled={!commentsPagination.hasNextPage}
-                >
-                  Next
-                </button>
-              </div>
-            )}
-          </section>
-        </>
-      )}
+            </section>
+          </>
+        )}
+      </section>
     </div>
   );
 }

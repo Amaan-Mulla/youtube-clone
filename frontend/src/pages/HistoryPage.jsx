@@ -60,11 +60,11 @@ function HistoryPage() {
   }
 
   if (isLoading) {
-    return <p>Loading history...</p>;
+    return <p className="history-status-message">Loading history...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="history-error">{error}</p>;
   }
 
   const validHistory = history.filter(
@@ -72,24 +72,25 @@ function HistoryPage() {
   );
 
   if (validHistory.length === 0) {
-    return <p>No watch history found.</p>;
+    return <p className="history-status-message">No watch history found.</p>;
   }
 
   return (
-    <div>
-      <h1>Watch History</h1>
+    <div className="history-page">
+      <h1 className="history-title">Watch History</h1>
 
-      {removeError && <p>{removeError}</p>}
+      {removeError && <p className="history-error">{removeError}</p>}
 
-      <div>
+      <div  className="history-list">
         {validHistory.map((historyItem) => {
           const videoId = historyItem.video._id;
 
           return (
-            <div key={historyItem._id}>
+            <div className="history-item" key={historyItem._id}>
               <VideoCard video={historyItem.video} />
 
               <button
+                className="history-remove-button"
                 type="button"
                 onClick={() => handleRemove(videoId)}
                 disabled={removingVideoId === videoId}

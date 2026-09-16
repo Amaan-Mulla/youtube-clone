@@ -190,7 +190,7 @@ function HomePage() {
             : "No videos found."}
         </p>
       ) : (
-        <div>
+        <div className="video-grid">
           {videos.map((video) => (
             <VideoCard
               key={video._id}

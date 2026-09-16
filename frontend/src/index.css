@@ -1,111 +1,1636 @@
+/* ========================================
+   DESIGN VARIABLES
+======================================== */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --bg: #0f0f0f;
+  --surface: #181818;
+  --surface-hover: #272727;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --text-primary: #f1f1f1;
+  --text-secondary: #aaaaaa;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
+  --border: #303030;
+
+  --accent: #ff0000;
+  --accent-hover: #cc0000;
+
+  --danger: #ff4d4d;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --header-height: 64px;
+  --sidebar-width: 220px;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: var(--text-primary);
   background: var(--bg);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+/* ========================================
+   RESET
+======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
 }
 
 body {
   margin: 0;
+  padding: 0;
+
+  min-width: 320px;
+  min-height: 100vh;
+
+  color: var(--text-primary);
+  background: var(--bg);
+
+  font-family: inherit;
+  line-height: 1.5;
+
+  overflow-x: hidden;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  text-align: left;
 }
+
+
+/* ========================================
+   BASIC ELEMENTS
+======================================== */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+
+/* ========================================
+   TYPOGRAPHY
+======================================== */
 
 h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: var(--text-primary);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
 p {
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+
+/* ========================================
+   HEADER
+======================================== */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+  min-height: var(--header-height);
+
+  display: flex;
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 0 24px;
+
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+
+/* Logo */
+
+.app-header > a:first-child {
+  flex-shrink: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: var(--text-primary);
+
+  white-space: nowrap;
+}
+
+.app-header > a:first-child:hover {
+  color: #ffffff;
+}
+
+
+/* Search form */
+
+.app-header form {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  min-width: 180px;
+  max-width: 650px;
+
+  margin: 0 auto;
+}
+
+.app-header form input {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 14px;
+
+  border: 1px solid var(--border);
+  border-right: none;
+
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+
+  color: var(--text-primary);
+  background: #121212;
+
+  outline: none;
+}
+
+.app-header form input::placeholder {
+  color: var(--text-secondary);
+}
+
+.app-header form input:focus {
+  border-color: #555;
+}
+
+.app-header form button {
+  height: 40px;
+
+  padding: 0 18px;
+
+  border: 1px solid var(--border);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+
+  color: var(--text-primary);
+  background: #272727;
+
+  white-space: nowrap;
+}
+
+.app-header form button:hover {
+  background: #333333;
+}
+
+
+/* Header navigation/actions */
+
+.app-header > a:not(:first-child),
+.app-header > button {
+  flex-shrink: 0;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.app-header > a:not(:first-child) {
+  color: var(--text-secondary);
+}
+
+.app-header > a:not(:first-child):hover {
+  color: var(--text-primary);
+}
+
+
+/* Header buttons */
+
+.app-header > button {
+  padding: 8px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.app-header > button:hover {
+  background: var(--surface-hover);
+}
+
+
+/* ========================================
+   APP LAYOUT
+======================================== */
+
+.app-layout {
+  position: relative;
+
+  min-height: calc(100vh - var(--header-height));
+
+  background: var(--bg);
+}
+
+
+/* ========================================
+   SIDEBAR
+======================================== */
+
+.app-sidebar {
+  position: fixed;
+
+  top: var(--header-height);
+  left: 0;
+
+  z-index: 50;
+
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--header-height));
+
+  padding: 20px 12px;
+
+  overflow-y: auto;
+
+  background: var(--surface);
+
+  border-right: 1px solid var(--border);
+}
+
+
+/* Sidebar navigation */
+
+.app-sidebar nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.app-sidebar nav a {
+  display: block;
+
+  padding: 11px 14px;
+
+  border-radius: var(--radius-sm);
+
+  color: var(--text-secondary);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.app-sidebar nav a:hover {
+  color: var(--text-primary);
+  background: var(--surface-hover);
+}
+
+
+/* ========================================
+   MAIN CONTENT
+======================================== */
+
+.app-content {
+  margin-left: var(--sidebar-width);
+
+  min-height: calc(100vh - var(--header-height));
+
+  padding: 28px 32px;
+
+  background: var(--bg);
+}
+
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+button {
+  padding: 8px 16px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  color: var(--text-primary);
+  background: var(--surface);
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: #444444;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.55;
+}
+
+
+/* ========================================
+   FORM CONTROLS
+======================================== */
+
+input,
+textarea,
+select {
+  width: 100%;
+
+  padding: 10px 12px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+
+  color: var(--text-primary);
+  background: var(--surface);
+
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.6;
+}
+
+
+/* ========================================
+   RESPONSIVE FOUNDATION
+======================================== */
+
+@media (max-width: 1000px) {
+  .app-header {
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .app-header > a:not(:first-child),
+  .app-header > button {
+    font-size: 13px;
+  }
+
+  .app-content {
+    padding: 24px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 180px;
+  }
+
+  .app-header {
+    gap: 10px;
+    padding: 0 12px;
+  }
+
+  .app-header > a:not(:first-child),
+  .app-header > button {
+    font-size: 12px;
+  }
+
+  .app-header form {
+    min-width: 140px;
+  }
+
+  .app-content {
+    padding: 20px;
+  }
+}
+
+
+@media (max-width: 600px) {
+  :root {
+    --sidebar-width: 150px;
+  }
+
+  .app-header {
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .app-header > a:first-child {
+    font-size: 15px;
+  }
+
+  .app-header form {
+    min-width: 120px;
+  }
+
+  .app-header form button {
+    padding: 0 10px;
+  }
+
+  .app-content {
+    padding: 16px;
+  }
+}
+
+/* ========================================
+   VIDEO GRID
+======================================== */
+
+.video-grid {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(240px, 1fr)
+  );
+
+  gap: 28px 20px;
+
+  width: 100%;
+}
+
+
+/* ========================================
+   VIDEO CARD
+======================================== */
+
+.video-card {
+  min-width: 0;
+
+  color: var(--text-primary);
+}
+
+
+/* Video link */
+
+.video-card-link {
+  display: block;
+}
+
+
+/* Thumbnail */
+
+.video-thumbnail-wrapper {
+  width: 100%;
+
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  border-radius: var(--radius-md);
+
+  background: #222;
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.2s ease;
+}
+
+.video-card:hover .video-thumbnail {
+  transform: scale(1.02);
+}
+
+
+/* Video title */
+
+.video-card-title {
+  margin: 10px 0 6px;
+
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 600;
+
+  color: var(--text-primary);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+
+/* Channel */
+
+.video-card-channel {
+  display: block;
+
+  margin-top: 4px;
+
+  font-size: 13px;
+
+  color: var(--text-secondary);
+}
+
+.video-card-channel:hover {
+  color: var(--text-primary);
+}
+
+
+/* Views */
+
+.video-card-views {
+  margin-top: 3px;
+
+  font-size: 13px;
+
+  color: var(--text-secondary);
+}
+
+
+/* ========================================
+   VIDEO GRID RESPONSIVENESS
+======================================== */
+
+@media (max-width: 1000px) {
+  .video-grid {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(220px, 1fr)
+    );
+
+    gap: 24px 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .video-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px 12px;
+  }
+
+  .video-card-title {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+
+    gap: 24px;
+  }
+}
+
+
+
+/* =========================================================
+   WATCH PAGE
+   ========================================================= */
+
+.watch-page {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.watch-video-section {
+  width: 100%;
+}
+
+.watch-title {
+  margin: 0 0 18px;
+  font-size: 24px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.watch-player-wrapper {
+  width: 100%;
+  background: #000;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.watch-video-player {
+  display: block;
+  width: 100%;
+  max-height: 650px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+}
+
+
+/* =========================================================
+   CHANNEL
+   ========================================================= */
+
+.watch-channel-section {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.watch-channel-link {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.watch-channel-link:hover {
+  color: var(--accent);
+}
+
+.watch-channel-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.watch-subscriber-count {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.watch-owner-label {
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.watch-subscribe-button {
+  border-radius: 20px;
+  padding: 9px 16px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.watch-video-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.watch-views {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.watch-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.watch-action-button {
+  padding: 9px 16px;
+  border-radius: 20px;
+}
+
+.watch-action-button.active {
+  background: var(--text-primary);
+  color: var(--bg);
+}
+
+.watch-like-count {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.watch-playlist-section {
+  position: relative;
+  padding: 14px 0;
+}
+
+.watch-success {
+  margin: 8px 0;
+  color: #4ade80;
+  font-size: 13px;
+}
+
+.watch-error {
+  margin: 8px 0;
+  color: #f87171;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   PLAYLIST SELECTOR
+   ========================================================= */
+
+.playlist-selector {
+  width: 280px;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.playlist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.playlist-item {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+}
+
+.playlist-item:hover {
+  background: var(--surface-hover);
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.watch-description {
+  margin: 8px 0 28px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.watch-description p {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+
+/* =========================================================
+   VIDEO EDIT FORM
+   ========================================================= */
+
+.video-edit-section {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.video-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+
+/* =========================================================
+   COMMENTS
+   ========================================================= */
+
+.comments-section {
+  margin-top: 32px;
+}
+
+.comments-section h2 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  color: var(--text-primary);
+}
+
+.comment-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.comment-form input {
+  flex: 1;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-item {
+  display: flex;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.comment-avatar {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-hover);
+}
+
+.comment-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.comment-author {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.comment-like-count {
+  margin-right: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.comment-like-button {
+  padding: 4px 9px;
+  border-radius: 14px;
+  font-size: 12px;
+}
+
+.comment-text {
+  margin: 8px 0;
+  color: var(--text-primary);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.comment-owner-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.comment-owner-actions button {
+  padding: 5px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+}
+
+.comment-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.comment-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.comments-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+}
+
+.comments-pagination span {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+
+/* =========================================================
+   WATCH PAGE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .watch-title {
+    font-size: 20px;
+  }
+
+  .watch-channel-section {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .watch-channel-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .watch-video-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .watch-actions {
+    width: 100%;
+  }
+
+  .watch-playlist-section {
+    padding-top: 10px;
+  }
+
+  .playlist-selector {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .watch-title {
+    font-size: 18px;
+  }
+
+  .watch-player-wrapper {
+    border-radius: 0;
+  }
+
+  .watch-description {
+    padding: 12px;
+  }
+
+  .comment-form {
+    flex-direction: column;
+  }
+
+  .comment-form button {
+    align-self: flex-start;
+  }
+
+  .comments-pagination {
+    gap: 10px;
+  }
+}
+
+
+/* =========================================================
+   CHANNEL HEADER
+   ========================================================= */
+
+.channel-cover {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  margin-bottom: 24px;
+}
+
+.channel-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.channel-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.channel-avatar {
+  width: 112px;
+  height: 112px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-hover);
+}
+
+.channel-info {
+  min-width: 0;
+}
+
+.channel-name {
+  margin: 0 0 6px;
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.channel-username {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.channel-subscribers {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.channel-actions {
+  margin-top: 14px;
+}
+
+.channel-subscribe-button {
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.channel-owner-label {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.channel-error {
+  margin: 8px 0 0;
+  color: #f87171;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   CHANNEL HEADER RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .channel-cover {
+    height: 180px;
+  }
+
+  .channel-header {
+    gap: 16px;
+  }
+
+  .channel-avatar {
+    width: 88px;
+    height: 88px;
+  }
+
+  .channel-name {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 500px) {
+  .channel-cover {
+    height: 140px;
+    border-radius: 0;
+  }
+
+  .channel-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
+  .channel-avatar {
+    width: 80px;
+    height: 80px;
+    margin-top: -40px;
+    border: 4px solid var(--bg);
+  }
+
+  .channel-name {
+    font-size: 20px;
+  }
+}
+
+
+/* =========================================================
+   CHANNEL PLAYLIST CREATION
+   ========================================================= */
+
+.channel-playlists {
+  margin-top: 32px;
+}
+
+.channel-section-title {
+  margin: 0 0 20px;
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.playlist-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin-bottom: 28px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.playlist-create-form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.playlist-create-form label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.playlist-input {
+  width: 100%;
+}
+
+.playlist-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.playlist-create-button {
+  align-self: flex-start;
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   PLAYLIST CARDS
+   ========================================================= */
+
+.playlist-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.playlist-card {
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+
+.playlist-card h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.playlist-card a {
+  color: inherit;
+}
+
+.playlist-card p {
+  margin: 6px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.playlist-card button {
+  margin-top: 12px;
+  margin-right: 8px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .playlist-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   CHANNEL PAGINATION
+   ========================================================= */
+
+.channel-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 28px;
+  padding: 8px 0;
+}
+
+.channel-pagination span {
+  font-size: 14px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.channel-pagination button {
+  min-width: 90px;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+@media (max-width: 500px) {
+  .channel-pagination {
+    gap: 10px;
+  }
+
+  .channel-pagination button {
+    min-width: 80px;
+    padding: 8px 12px;
+  }
+
+  .channel-pagination span {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   PLAYLIST EDIT FORM
+   ========================================================= */
+
+.playlist-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.playlist-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.playlist-edit-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.playlist-edit-form .playlist-input {
+  background: var(--surface);
+}
+
+.playlist-save-button,
+.playlist-cancel-button {
+  padding: 8px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+}
+
+.playlist-save-button {
+  margin-right: 8px;
+}
+
+.playlist-cancel-button {
+  margin-top: 0;
+}
+
+
+/* =========================================================
+   CHANNEL OWNER VIDEOS
+   ========================================================= */
+
+.channel-owner-videos {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.channel-owner-title {
+  margin: 0 0 16px;
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.channel-upload-button {
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+
+.channel-owner-video-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.channel-owner-video-card {
+  min-width: 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.channel-owner-video-card .video-card {
+  margin: 0;
+}
+
+.channel-video-status {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.channel-owner-video-card button {
+  margin-top: 10px;
+  margin-right: 8px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .channel-owner-video-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   CHANNEL STATUS MESSAGES
+   ========================================================= */
+
+.channel-status-message {
+  margin: 12px 0;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* =========================================================
+   UPLOAD PAGE
+   ========================================================= */
+
+.upload-page {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.upload-title {
+  margin: 0 0 24px;
+  font-size: 28px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.upload-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upload-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.upload-input {
+  width: 100%;
+}
+
+.upload-textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.upload-file-input {
+  width: 100%;
+  padding: 10px;
+  background: var(--surface-hover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+.upload-submit-button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.upload-error {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: #f87171;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .upload-form {
+    padding: 18px;
+  }
+
+  .upload-title {
+    font-size: 24px;
+  }
+
+  .upload-submit-button {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   HISTORY PAGE
+   ========================================================= */
+
+.history-page {
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+.history-title {
+  margin: 0 0 24px;
+  font-size: 28px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.history-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.history-item {
+  min-width: 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.history-remove-button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border-radius: 18px;
+  font-size: 13px;
+}
+
+.history-error {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: #f87171;
+  font-size: 14px;
+}
+
+.history-status-message {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .history-list {
+    grid-template-columns: 1fr;
+  }
+
+  .history-title {
+    font-size: 24px;
+  }
+
+  .history-remove-button {
+    width: 100%;
+  }
 }
