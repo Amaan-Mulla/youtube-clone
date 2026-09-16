@@ -1,0 +1,31 @@
+{
+  "name": "backproject",
+  "version": "1.0.0",
+  "description": "A backend project",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node -r dotenv/config --experimental-json-modules src/index.js",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@derhuerst/ffprobe-static": "^5.3.0",
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.10.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.0",
+    "mongoose-aggregate-paginate-v2": "^1.1.5",
+    "mongoose-paginate-v2": "^1.9.5",
+    "multer": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
