@@ -1,4 +1,4 @@
-# YouTube Clone
+# ViewStream — Full-Stack Video Sharing Platform
 
 A full-stack YouTube-like video sharing platform built with React, Node.js, Express.js, and MongoDB.
 
@@ -234,7 +234,7 @@ Main API groups include:
 /playlists
 /history
 /dashboard
-/healthcheck
+/health
 ```
 
 Examples:
@@ -420,11 +420,13 @@ docs/screenshots/
 
 ## Project Status
 
-The core implementation is complete and the project has been tested across the major user flows.
+## Project Status
+
+The core implementation is complete and the project has been verified across the major user flows, including authentication, video management, channels, subscriptions, watch history, playlists, engagement, search, and the creator dashboard.
 
 ## Author
 
-**Amaan Mulla**
+**Amanulla**
 
 GitHub:
 
