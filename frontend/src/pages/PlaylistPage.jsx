@@ -76,15 +76,31 @@ function PlaylistPage() {
   }, [playlistId]);
 
   if (isLoading) {
-    return <p>Loading playlist...</p>;
+    return (
+      <main className="playlist-page">
+        <p className="playlist-status-message">
+          Loading playlist...
+        </p>
+      </main>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <main className="playlist-page">
+        <p className="playlist-error">{error}</p>
+      </main>
+    );
   }
 
   if (!playlist) {
-    return <p>Playlist not found.</p>;
+    return (
+      <main className="playlist-page">
+        <p className="playlist-status-message">
+          Playlist not found.
+        </p>
+      </main>
+    );
   }
 
   const isPlaylistOwner =
@@ -128,36 +144,59 @@ function PlaylistPage() {
   }
 
   return (
-    <div>
-      <h1>{playlist.name}</h1>
-      <p>{playlist.description}</p>
-      <p>{playlist.videos.length} videos</p>
+    <main className="playlist-page">
+      <header className="playlist-header">
+        <div className="playlist-header-content">
+          <h1 className="playlist-title">{playlist.name}</h1>
 
-      {removeVideoError && <p>{removeVideoError}</p>}
+          {playlist.description && (
+            <p className="playlist-description">
+              {playlist.description}
+            </p>
+          )}
+
+          <p className="playlist-video-count">
+            {playlist.videos.length}{" "}
+            {playlist.videos.length === 1 ? "video" : "videos"}
+          </p>
+        </div>
+      </header>
+
+      {removeVideoError && (
+        <p className="playlist-error playlist-remove-error">
+          {removeVideoError}
+        </p>
+      )}
 
       {playlist.videos.length === 0 ? (
-        <p>No videos in this playlist.</p>
+        <p className="playlist-status-message playlist-empty-message">
+          No videos in this playlist.
+        </p>
       ) : (
-        <div>
+        <div className="playlist-video-grid">
           {playlist.videos.map((video) => (
-            <div key={video._id}>
+            <article
+              className="playlist-video-item"
+              key={video._id}
+            >
               <VideoCard video={video} />
 
               {isPlaylistOwner && (
                 <button
+                  className="playlist-remove-button"
                   onClick={() => handleRemoveVideo(video._id)}
                   disabled={removingVideoId === video._id}
                 >
                   {removingVideoId === video._id
                     ? "Removing..."
-                    : "Remove"}
+                    : "Remove from Playlist"}
                 </button>
               )}
-            </div>
+            </article>
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

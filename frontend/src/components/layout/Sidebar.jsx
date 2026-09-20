@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { apiClient } from "../../lib/apiClient.js";
 
-function Sidebar() {
+function Sidebar({ isOpen }) {
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -23,7 +23,11 @@ function Sidebar() {
   }, [location.pathname]);
 
   return (
-    <aside className="app-sidebar" aria-label="Primary navigation">
+    <aside
+      className={`app-sidebar ${isOpen ? "sidebar-visible" : "sidebar-hidden"
+        }`}
+      aria-label="Primary navigation"
+    >
       <nav>
         <Link to="/">Home</Link>
 
@@ -32,6 +36,8 @@ function Sidebar() {
             Subscriptions
           </Link>
         )}
+        <Link to="/history">History</Link>
+
       </nav>
     </aside>
   );

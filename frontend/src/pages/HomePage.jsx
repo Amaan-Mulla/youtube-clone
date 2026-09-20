@@ -157,11 +157,11 @@ function HomePage() {
         {query ? `Search results for "${query}"` : "Home"}
       </h1>
 
-      {currentUser && (
+      {/* {currentUser && (
         <Link to="/history">
           Watch History
         </Link>
-      )}
+      )} */}
 
       {query && (
         <>

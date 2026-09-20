@@ -201,61 +201,79 @@ function AccountPage() {
   }
 
   if (isLoading) {
-    return <p>Loading account...</p>;
+    return (
+      <main className="account-page">
+        <p className="account-status-message">
+          Loading account...
+        </p>
+      </main>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <main className="account-page">
+        <p className="account-error">{error}</p>
+      </main>
+    );
   }
 
   if (!currentUser) {
-    return <p>User information not found.</p>;
+    return (
+      <main className="account-page">
+        <p className="account-status-message">
+          User information not found.
+        </p>
+      </main>
+    );
   }
 
   return (
-    <div>
-      <h1>My Account</h1>
+    <main className="account-page">
+      <h1 className="account-title">My Account</h1>
 
-      {currentUser.coverImage && (
-        <img
-          src={currentUser.coverImage}
-          alt="Cover"
-        />
-      )}
-
-      <form onSubmit={handleCoverImageSubmit}>
-        <label>
-          Cover Image
-          <input
-            type="file"
-            accept="image/*"
-            disabled={isUpdatingCoverImage}
-            onChange={(event) => {
-              setSelectedCoverImage(event.target.files[0] || null);
-              setCoverImageError("");
-            }}
+      <section className="account-profile-section">
+        {currentUser.coverImage && (
+          <img
+            className="account-cover-image"
+            src={currentUser.coverImage}
+            alt="Cover"
           />
-        </label>
+        )}
 
-        {coverImageError && <p>{coverImageError}</p>}
+        <div className="account-profile-content">
+          <img
+            className="account-avatar"
+            src={currentUser.avatar}
+            alt={currentUser.username}
+          />
 
-        <button type="submit" disabled={isUpdatingCoverImage}>
-          {isUpdatingCoverImage ? "Uploading..." : "Update Cover Image"}
-        </button>
-      </form>
+          <div className="account-profile-info">
+            <h2>{currentUser.fullName}</h2>
+            <p>@{currentUser.username}</p>
+          </div>
+        </div>
+      </section>
 
-      <div>
-        <img
-          src={currentUser.avatar}
-          alt={currentUser.username}
-          width="100"
-          height="100"
-        />
+      <section className="account-section">
+        <div className="account-section-header">
+          <div>
+            <h2>Profile Images</h2>
+            <p>Update your avatar and cover image.</p>
+          </div>
+        </div>
 
-        <form onSubmit={handleAvatarSubmit}>
-          <label>
-            Change Avatar
+        <div className="account-image-actions">
+          <form
+            className="account-image-form"
+            onSubmit={handleAvatarSubmit}
+          >
+            <label className="account-field-label">
+              Change Avatar
+            </label>
+
             <input
+              className="account-file-input"
               type="file"
               accept="image/*"
               onChange={(event) => {
@@ -263,97 +281,227 @@ function AccountPage() {
                 setAvatarError("");
               }}
             />
-          </label>
 
-          {avatarError && <p>{avatarError}</p>}
+            {avatarError && (
+              <p className="account-error">
+                {avatarError}
+              </p>
+            )}
 
-          <button type="submit" disabled={isUpdatingAvatar}>
-            {isUpdatingAvatar ? "Uploading..." : "Update Avatar"}
-          </button>
-        </form>
-      </div>
+            <button
+              className="account-primary-button"
+              type="submit"
+              disabled={isUpdatingAvatar}
+            >
+              {isUpdatingAvatar ? "Uploading..." : "Update Avatar"}
+            </button>
+          </form>
 
-      {isEditing ? (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Full Name
+          <form
+            className="account-image-form"
+            onSubmit={handleCoverImageSubmit}
+          >
+            <label className="account-field-label">
+              Change Cover Image
+            </label>
+
             <input
-              type="text"
-              value={editFullName}
-              onChange={(event) => setEditFullName(event.target.value)}
+              className="account-file-input"
+              type="file"
+              accept="image/*"
+              disabled={isUpdatingCoverImage}
+              onChange={(event) => {
+                setSelectedCoverImage(event.target.files[0] || null);
+                setCoverImageError("");
+              }}
+            />
+
+            {coverImageError && (
+              <p className="account-error">
+                {coverImageError}
+              </p>
+            )}
+
+            <button
+              className="account-primary-button"
+              type="submit"
+              disabled={isUpdatingCoverImage}
+            >
+              {isUpdatingCoverImage
+                ? "Uploading..."
+                : "Update Cover Image"}
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section className="account-section">
+        <div className="account-section-header">
+          <div>
+            <h2>Account Details</h2>
+            <p>Manage your personal account information.</p>
+          </div>
+        </div>
+
+        {isEditing ? (
+          <form
+            className="account-form"
+            onSubmit={handleSubmit}
+          >
+            <label className="account-field">
+              <span>Full Name</span>
+
+              <input
+                className="account-input"
+                type="text"
+                value={editFullName}
+                onChange={(event) =>
+                  setEditFullName(event.target.value)
+                }
+              />
+            </label>
+
+            <label className="account-field">
+              <span>Email</span>
+
+              <input
+                className="account-input"
+                type="email"
+                value={editEmail}
+                onChange={(event) =>
+                  setEditEmail(event.target.value)
+                }
+              />
+            </label>
+
+            {updateError && (
+              <p className="account-error">
+                {updateError}
+              </p>
+            )}
+
+            <div className="account-button-group">
+              <button
+                className="account-primary-button"
+                type="submit"
+                disabled={isUpdating}
+              >
+                {isUpdating ? "Saving..." : "Save Changes"}
+              </button>
+
+              <button
+                className="account-secondary-button"
+                type="button"
+                onClick={handleCancel}
+                disabled={isUpdating}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="account-details">
+            <div className="account-detail-row">
+              <span>Name</span>
+              <strong>{currentUser.fullName}</strong>
+            </div>
+
+            <div className="account-detail-row">
+              <span>Username</span>
+              <strong>@{currentUser.username}</strong>
+            </div>
+
+            <div className="account-detail-row">
+              <span>Email</span>
+              <strong>{currentUser.email}</strong>
+            </div>
+
+            <button
+              className="account-primary-button"
+              type="button"
+              onClick={handleEditAccount}
+            >
+              Edit Account
+            </button>
+          </div>
+        )}
+      </section>
+
+      <section className="account-section">
+        <div className="account-section-header">
+          <div>
+            <h2>Change Password</h2>
+            <p>Update your password to keep your account secure.</p>
+          </div>
+        </div>
+
+        <form
+          className="account-form"
+          onSubmit={handleChangePassword}
+        >
+          <label className="account-field">
+            <span>Current Password</span>
+
+            <input
+              className="account-input"
+              type="password"
+              value={currentPassword}
+              onChange={(event) =>
+                setCurrentPassword(event.target.value)
+              }
             />
           </label>
 
-          <label>
-            Email
+          <label className="account-field">
+            <span>New Password</span>
+
             <input
-              type="email"
-              value={editEmail}
-              onChange={(event) => setEditEmail(event.target.value)}
+              className="account-input"
+              type="password"
+              value={newPassword}
+              onChange={(event) =>
+                setNewPassword(event.target.value)
+              }
             />
           </label>
 
-          {updateError && <p>{updateError}</p>}
+          <label className="account-field">
+            <span>Confirm New Password</span>
 
-          <button type="submit" disabled={isUpdating}>
-            {isUpdating ? "Saving..." : "Save Changes"}
-          </button>
-          <button type="button" onClick={handleCancel} disabled={isUpdating}>
-            Cancel
+            <input
+              className="account-input"
+              type="password"
+              value={confirmPassword}
+              onChange={(event) =>
+                setConfirmPassword(event.target.value)
+              }
+            />
+          </label>
+
+          {passwordError && (
+            <p className="account-error">
+              {passwordError}
+            </p>
+          )}
+
+          {passwordSuccess && (
+            <p className="account-success">
+              {passwordSuccess}
+            </p>
+          )}
+
+          <button
+            className="account-primary-button"
+            type="submit"
+            disabled={isChangingPassword}
+          >
+            {isChangingPassword
+              ? "Changing Password..."
+              : "Change Password"}
           </button>
         </form>
-      ) : (
-        <>
-          <h2>{currentUser.fullName}</h2>
-
-          <p>@{currentUser.username}</p>
-
-          <p>{currentUser.email}</p>
-
-          <button type="button" onClick={handleEditAccount}>
-            Edit Account
-          </button>
-        </>
-      )}
-
-      <form onSubmit={handleChangePassword}>
-        <h2>Change Password</h2>
-
-        <label>
-          Current Password
-          <input
-            type="password"
-            value={currentPassword}
-            onChange={(event) => setCurrentPassword(event.target.value)}
-          />
-        </label>
-
-        <label>
-          New Password
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(event) => setNewPassword(event.target.value)}
-          />
-        </label>
-
-        <label>
-          Confirm New Password
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-          />
-        </label>
-
-        {passwordError && <p>{passwordError}</p>}
-        {passwordSuccess && <p>{passwordSuccess}</p>}
-
-        <button type="submit" disabled={isChangingPassword}>
-          {isChangingPassword ? "Changing Password..." : "Change Password"}
-        </button>
-      </form>
-    </div>
+      </section>
+    </main>
   );
 }
 

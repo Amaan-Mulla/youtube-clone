@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { apiClient } from "../../lib/apiClient.js";
 
-function Header() {
+function Header({ onSidebarToggle }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -76,7 +76,20 @@ function Header() {
 
   return (
     <header className="app-header">
-      <Link to="/" aria-label="Home">
+      <button
+        type="button"
+        className="app-menu-button"
+        onClick={onSidebarToggle}
+        aria-label="Toggle sidebar"
+      >
+        ☰
+      </button>
+
+      <Link
+        to="/"
+        className="app-logo"
+        aria-label="Home"
+      >
         YouTube Clone
       </Link>
 

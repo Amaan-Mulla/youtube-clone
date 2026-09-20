@@ -69,36 +69,41 @@ function DashboardPage() {
   }
 
   return (
-    <div>
-      <h1>Creator Dashboard</h1>
+    <main className="dashboard-page">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Creator Dashboard</h1>
+        <p className="dashboard-subtitle">
+          Overview of your channel performance
+        </p>
+      </header>
 
-      <div>
-        <article>
-          <h2>Total Videos</h2>
-          <p>{stats.totalVideos}</p>
+      <section className="dashboard-stats-grid">
+        <article className="dashboard-stat-card">
+          <h2 className="dashboard-stat-label">Total Videos</h2>
+          <p className="dashboard-stat-value">{stats.totalVideos}</p>
         </article>
 
-        <article>
-          <h2>Total Views</h2>
-          <p>{stats.totalViews}</p>
+        <article className="dashboard-stat-card">
+          <h2 className="dashboard-stat-label">Total Views</h2>
+          <p className="dashboard-stat-value">{stats.totalViews}</p>
         </article>
 
-        <article>
-          <h2>Total Likes</h2>
-          <p>{stats.totalLikes}</p>
+        <article className="dashboard-stat-card">
+          <h2 className="dashboard-stat-label">Total Likes</h2>
+          <p className="dashboard-stat-value">{stats.totalLikes}</p>
         </article>
 
-        <article>
-          <h2>Total Comments</h2>
-          <p>{stats.totalComments}</p>
+        <article className="dashboard-stat-card">
+          <h2 className="dashboard-stat-label">Total Comments</h2>
+          <p className="dashboard-stat-value">{stats.totalComments}</p>
         </article>
 
-        <article>
-          <h2>Total Subscribers</h2>
-          <p>{stats.totalSubscribers}</p>
+        <article className="dashboard-stat-card">
+          <h2 className="dashboard-stat-label">Total Subscribers</h2>
+          <p className="dashboard-stat-value">{stats.totalSubscribers}</p>
         </article>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 

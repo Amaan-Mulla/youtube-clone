@@ -36,11 +36,21 @@ function SubscriptionsPage() {
   }, [navigate]);
 
   if (isLoading) {
-    return <p>Loading subscriptions...</p>;
+    return (
+      <main className="subscriptions-page">
+        <p className="subscriptions-status-message">
+          Loading subscriptions...
+        </p>
+      </main>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <main className="subscriptions-page">
+        <p className="subscriptions-error">{error}</p>
+      </main>
+    );
   }
 
   const validSubscriptions = subscriptions.filter(
@@ -48,14 +58,20 @@ function SubscriptionsPage() {
   );
 
   if (validSubscriptions.length === 0) {
-    return <p>You haven't subscribed to any channels yet.</p>;
+    return (
+      <main className="subscriptions-page">
+        <p className="subscriptions-status-message">
+          You haven't subscribed to any channels yet.
+        </p>
+      </main>
+    );
   }
 
   return (
-    <div>
-      <h1>Subscriptions</h1>
+    <main className="subscriptions-page">
+      <h1 className="subscriptions-title">Subscriptions</h1>
 
-      <div>
+      <div className="subscriptions-grid">
         {validSubscriptions.map((subscription) => {
           const channel = subscription.channel;
 
@@ -63,24 +79,30 @@ function SubscriptionsPage() {
             <Link
               key={subscription._id}
               to={`/channel/${channel.username}`}
+              className="subscription-card-link"
             >
-              <article>
+              <article className="subscription-card">
                 <img
+                  className="subscription-avatar"
                   src={channel.avatar}
                   alt={channel.username}
-                  width="80"
-                  height="80"
                 />
 
-                <h2>{channel.fullName}</h2>
+                <div className="subscription-info">
+                  <h2 className="subscription-channel-name">
+                    {channel.fullName}
+                  </h2>
 
-                <p>@{channel.username}</p>
+                  <p className="subscription-username">
+                    @{channel.username}
+                  </p>
+                </div>
               </article>
             </Link>
           );
         })}
       </div>
-    </div>
+    </main>
   );
 }
 
